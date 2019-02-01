@@ -8,23 +8,26 @@
 
 //   * A function that takes a character as an argument and checks it against the underlying character, updating the stored boolean value to true if it was guessed correctly
 
+var guess = process.argv[2];
+// console.log(guess);
+
 var Letter = function(char) {
     this.char = char;
-    this.guessed = true;
-    this.checkStatus = function() {
+    this.guessed = false;
+    this.updateStatus = function() {
         if (this.guessed) {
-            return this.char;
+            this.char = `${char}`
         }
         else {
-            return `-`;
+            this.char = `_`;
         }
     }
 
-    this.checkGuess = function(guess) {
-        if (char == guess) {
+    this.checkGuess = function(input) {
+        if (input == this.char) {
             this.guessed = true;
         }
-
+        return this.guessed;
     }
 }
 
