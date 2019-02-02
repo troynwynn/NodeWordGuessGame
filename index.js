@@ -4,45 +4,43 @@ const Word = require('./word.js');
 // var newGuess = process.argv[2].toLowerCase();
 
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+var guesses = [];
 
 var guessesRemaining = 10;
-
 var str = 'string';
-
 var word = new Word(str);
-word.printWord();
+word.storeWord();
 
+// while (word.cleanLetters != str) {
+//     choiceUpdate();
+
+// }
+
+playGame();
 
 function playGame() {
-    if (guessesRemaining == 0) { 
-        console.log(`You've lost the game`); 
-    }     
-    else {
-        choiceUpdate();
+    if (guessesRemaining > 0) {
+        // console.log(guessesRemaining);
+        guessWord();
+        // word.updatedLetters(newGuess);
+    //     if (!word.containsGuess(newGuess)) {
+    //         guessesRemaining--;
+    //   }
+        
     }
 
 }
 
-playGame();
+function guessWord() {
+    // if (guessesRemaining > 0) {
+        // console.log(guessesRemaining);
+        guessLetter();
+        
+        
 
+    }
 
-// if (alphabet.includes(newGuess) && guesses.includes(newGuess)) {
-//     //write some prompt telling the user they already tried that one
-//     //
-// }
-// if (alphabet.includes(newGuess) && !guesses.includes(newGuess)) {
-//     //guesses.push(newGuess);
-//     //
-// }
-
-// if (newGuess.length > 1) {
-//     //prompt: please enter a valid guess
-//     //
-// }
-
-
-function choiceUpdate() {
-    console.log("\n--------\npromptPlayerCreation: NEW PLAYER!\n--------\n");
+function guessLetter() {
     inquirer
       .prompt([
         {
@@ -52,9 +50,41 @@ function choiceUpdate() {
         }
       ])
       .then(function(answers) {
-        newGuess = answers.newGuess
-        word.writeLetters();
-        guessesRemaining -= word.count;
+        newGuess = answers.newGuess.toLowerCase();
+
+        if (alphabet.includes(newGuess) && guesses.includes(newGuess)) {
+            console.log(`You've already guessed that. Please try again.`);
+            // break;
+            guessWord();
+        }
+
+        else if ((newGuess.length > 1) || 
+                    (newGuess == ' ') || 
+                    (newGuess == '') || 
+                    (!alphabet.includes(newGuess)) ) {
+            console.log(`Please enter a valid guess.`);
+            // break;
+            guessWord();
+        }
+        else if (alphabet.includes(newGuess) && !guesses.includes(newGuess)) {
+            
+            guesses.push(newGuess);
+            word.updatedLetters(newGuess);
+            // console.log(word.containsThis(newGuess));
+            if (!word.containsThis(newGuess)) {
+                guessesRemaining--;
+                console.log(`INCORRECT! You have ${guessesRemaining} guesses remaining.`);
+                console.log(word.updatedLetters(newGuess));
+                
+            }
+            else {
+                console.log(`CORRECT!`);
+                console.log(word.updatedLetters(newGuess));
+            }
+            guessWord();
+        }
+      
       });
-  }
-  
+
+      
+    }
