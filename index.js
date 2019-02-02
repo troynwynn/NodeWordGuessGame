@@ -10,6 +10,7 @@ playGame();
 
 
 function playGame() {
+    console.log(`Let's Play: Guess That State!`)
     initGame();
     
     guessWord();
@@ -28,7 +29,10 @@ function initGame() {
 
 function endGame() {
     if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') == stateLowercase.split(' ').join(''))) {
-        console.log(`Great Scott! You've done it!`);
+        console.log(`\n`);
+
+        console.log(`GREAT SCOTT! You've done it!`);
+        console.log(`\n`);
 
         inquirer
             .prompt({
@@ -46,7 +50,9 @@ function endGame() {
 
     }
     if (guessesRemaining == 0) {
+        console.log(`\n`);
         console.log(`You've lost. \nThe correct answer was: ${state}\nWhat do you have to say for yourself?`);
+        console.log(`\n`);
 
         inquirer
             .prompt({
@@ -58,6 +64,7 @@ function endGame() {
                 if (answer.again === true) {
                     playGame();
                 } else {
+                    console.log(`\n`);
                     console.log("Come back again soon!");
                 }
             });
@@ -68,6 +75,7 @@ function endGame() {
 function guessWord() {
     if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') !== stateLowercase.split(' ').join(''))){
         guessLetter();
+        // console.log(`\n`);
     }
     else 
         endGame();
@@ -75,6 +83,7 @@ function guessWord() {
 }
 
 function guessLetter() {
+    console.log(`\n`);
     inquirer
       .prompt([
         {
@@ -88,6 +97,7 @@ function guessLetter() {
 
         if (alphabet.includes(newGuess) && guesses.includes(newGuess)) {
             console.log(`You've already guessed that. Please try again.`);
+            console.log(`\n`);
             console.log(word.updatedLetters(newGuess));
             guessWord();
         }
@@ -97,6 +107,7 @@ function guessLetter() {
                     (newGuess == '') || 
                     (!alphabet.includes(newGuess)) ) {
             console.log(`Please enter a valid guess.`);
+            console.log(`\n`);
             console.log(word.updatedLetters(newGuess));
             guessWord();
         }
@@ -104,15 +115,18 @@ function guessLetter() {
             
             guesses.push(newGuess);
             word.updatedLetters(newGuess);
+            console.log(`\n`);
 
             if (!word.containsThis(newGuess)) {
                 guessesRemaining--;
                 console.log(`INCORRECT! You have ${guessesRemaining} guesses remaining.`);
+                console.log(`\n`);
                 console.log(word.updatedLetters(newGuess));
                 
             }
             else {
                 console.log(`CORRECT!`);
+                console.log(`\n`);
                 console.log(word.updatedLetters(newGuess));
             }
             guessWord();

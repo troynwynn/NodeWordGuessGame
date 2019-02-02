@@ -1,7 +1,20 @@
-# NodeWordGuess
+# Let's Play: Guess That State!
 
-## How To
- * Use programmer-recursionArray.js (07-Programmers Loop) to push new letter into `dashes[]`
- * If/while the number of guesses is greater than 0, let this run (teamManager.js - playgame initialization)
-* answer.whatever = user_guess -- if word.includes(user_guess), then replace dash with letter
+## Introduction
+NodeWordGuess is a CLI (Command-Line Interface) Game that gives a user `x` amount of tries to guess the correct word. 
+For this edition, the words to be guessed are the 50 United States of America, which will be chosen at random during each game. When the user runs out of remainging guesses or when the user correctly guesses the word, he/she will be asked whether or not they would like to play again.
 
+## Required Files
+* `letter.js` - contains a constructor, Letter
+* `word.js` - contains a constructor, Word, which requires the Letter constructor to rebuild the random state name
+* `index.txt` - contains the game's logic and inquirer prompts for gameplay
+
+## Required packages & APIs
+* [Inquirer](https://www.npmjs.com/package/inquirer)
+
+## Command Line Calls
+
+To start the game:
+```
+node index.js 
+```
