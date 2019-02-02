@@ -54,6 +54,7 @@ function guessLetter() {
 
         if (alphabet.includes(newGuess) && guesses.includes(newGuess)) {
             console.log(`You've already guessed that. Please try again.`);
+            console.log(word.updatedLetters(newGuess));
             // break;
             guessWord();
         }
@@ -63,6 +64,7 @@ function guessLetter() {
                     (newGuess == '') || 
                     (!alphabet.includes(newGuess)) ) {
             console.log(`Please enter a valid guess.`);
+            console.log(word.updatedLetters(newGuess));
             // break;
             guessWord();
         }
