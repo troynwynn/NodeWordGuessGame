@@ -6,9 +6,9 @@ var guesses = [];
 
 var guessesRemaining = 10;
 var states = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Distateict of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
-var state = states[Math.floor(Math.random()*states.length)].toLowerCase();
-// console.log(state);
-var word = new Word(state);
+var state = states[Math.floor(Math.random()*states.length)];
+var stateLowercase = state.toLowerCase();
+var word = new Word(stateLowercase);
 word.storeWord();
 
 
@@ -19,7 +19,7 @@ function playGame() {
 }
 
 function endGame() {
-    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') == state)) {
+    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') == stateLowercase)) {
         console.log(`Great Scott! You've done it!`);
 
         inquirer
@@ -32,8 +32,9 @@ function endGame() {
                 if (answer.again === true) {
                     guesses =[];
                     guessesRemaining = 10;
-                    state = states[Math.floor(Math.random()*states.length)].toLowerCase();
-                    word = new Word(state);
+                    state = states[Math.floor(Math.random()*states.length)];
+                    stateLowercase = state.toLowerCase();
+                    word = new Word(stateLowercase);
                     word.storeWord();
                     playGame();
                 } else {
@@ -55,7 +56,10 @@ function endGame() {
                 if (answer.again === true) {
                     guesses =[];
                     guessesRemaining = 10;
-                    word.resetWord();
+                    state = states[Math.floor(Math.random()*states.length)];
+                    stateLowercase = state.toLowerCase();
+                    word = new Word(stateLowercase);
+                    word.storeWord();
                     playGame();
                 } else {
                     console.log("Come back again soon!");
@@ -66,7 +70,7 @@ function endGame() {
 }
 
 function guessWord() {
-    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') !== state)){
+    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') !== stateLowercase)){
         guessLetter();
     }
     else 

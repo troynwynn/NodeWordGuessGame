@@ -59,16 +59,4 @@ var Word = function(word) {
     }
 }
 
-// var str = 'strings';
-
-// var test = new Word(str);
-
-// test.storeWord();
-// console.log(test.updatedLetters(newGuess));
-// console.log(test.updatedLetters(newGuess));
-// console.log(test.updatedLetters(newGuess));
-// console.log(test.updatedLetters(newGuess));
-
-// // console.log(newGuess);
-
 module.exports = Word;
