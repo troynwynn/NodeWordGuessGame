@@ -51,6 +51,12 @@ var Word = function(word) {
         }
 
     }
+
+    this.resetWord = function() {
+        for (let i=0; i<this.letters.length;i++) {
+            this.letters[i].guessed = false;
+        }
+    }
 }
 
 // var str = 'strings';

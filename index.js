@@ -1,44 +1,78 @@
 const inquirer = require('inquirer');
 const Word = require('./word.js');
 
-// var newGuess = process.argv[2].toLowerCase();
-
 var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
 var guesses = [];
 
 var guessesRemaining = 10;
-var str = 'string';
-var word = new Word(str);
+var states = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Distateict of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+var state = states[Math.floor(Math.random()*states.length)].toLowerCase();
+// console.log(state);
+var word = new Word(state);
 word.storeWord();
 
-// while (word.cleanLetters != str) {
-//     choiceUpdate();
-
-// }
 
 playGame();
 
 function playGame() {
-    if (guessesRemaining > 0) {
-        // console.log(guessesRemaining);
-        guessWord();
-        // word.updatedLetters(newGuess);
-    //     if (!word.containsGuess(newGuess)) {
-    //         guessesRemaining--;
-    //   }
-        
-    }
+    guessWord();
+}
 
+function endGame() {
+    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') == state)) {
+        console.log(`Great Scott! You've done it!`);
+
+        inquirer
+            .prompt({
+                name: "again",
+                type: "confirm",
+                message: "Would you like to play again?"
+                })
+                .then(function(answer) {
+                if (answer.again === true) {
+                    guesses =[];
+                    guessesRemaining = 10;
+                    state = states[Math.floor(Math.random()*states.length)].toLowerCase();
+                    word = new Word(state);
+                    word.storeWord();
+                    playGame();
+                } else {
+                    console.log("Come back again soon!");
+                }
+            });
+
+    }
+    if (guessesRemaining == 0) {
+        console.log(`You've lost. \nThe correct answer was: ${state}\nWhat do you have to say for yourself?`);
+
+        inquirer
+            .prompt({
+                name: "again",
+                type: "confirm",
+                message: "Would you like to play again?"
+                })
+                .then(function(answer) {
+                if (answer.again === true) {
+                    guesses =[];
+                    guessesRemaining = 10;
+                    word.resetWord();
+                    playGame();
+                } else {
+                    console.log("Come back again soon!");
+                }
+            });
+
+        }
 }
 
 function guessWord() {
-    // if (guessesRemaining > 0) {
-        // console.log(guessesRemaining);
+    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') !== state)){
         guessLetter();
-        
-        
-
     }
+    else 
+        endGame();
+    
+}
 
 function guessLetter() {
     inquirer
@@ -55,7 +89,6 @@ function guessLetter() {
         if (alphabet.includes(newGuess) && guesses.includes(newGuess)) {
             console.log(`You've already guessed that. Please try again.`);
             console.log(word.updatedLetters(newGuess));
-            // break;
             guessWord();
         }
 
@@ -65,14 +98,13 @@ function guessLetter() {
                     (!alphabet.includes(newGuess)) ) {
             console.log(`Please enter a valid guess.`);
             console.log(word.updatedLetters(newGuess));
-            // break;
             guessWord();
         }
         else if (alphabet.includes(newGuess) && !guesses.includes(newGuess)) {
             
             guesses.push(newGuess);
             word.updatedLetters(newGuess);
-            // console.log(word.containsThis(newGuess));
+
             if (!word.containsThis(newGuess)) {
                 guessesRemaining--;
                 console.log(`INCORRECT! You have ${guessesRemaining} guesses remaining.`);
