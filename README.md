@@ -7,7 +7,7 @@ For this edition, the words to be guessed are the 50 United States of America, w
 ## Required Files
 * `letter.js` - contains a constructor, Letter
 * `word.js` - contains a constructor, Word, which requires the Letter constructor to rebuild the random state name
-* `index.txt` - contains the game's logic and inquirer prompts for gameplay
+* `index.js` - contains the game's logic and inquirer prompts for gameplay
 
 ## Required packages & APIs
 * [Inquirer](https://www.npmjs.com/package/inquirer)
