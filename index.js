@@ -1,25 +1,33 @@
 const inquirer = require('inquirer');
 const Word = require('./word.js');
 
-var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
-var guesses = [];
-
-var guessesRemaining = 10;
-var states = ['Alabama','Alaska','American Samoa','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Distateict of Columbia','Federated States of Micronesia','Florida','Georgia','Guam','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Marshall Islands','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Northern Mariana Islands','Ohio','Oklahoma','Oregon','Palau','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virgin Island','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
-var state = states[Math.floor(Math.random()*states.length)];
-var stateLowercase = state.toLowerCase();
-var word = new Word(stateLowercase);
-word.storeWord();
+var alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z', ' '];
+var states = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Puerto Rico','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
 
 
+//START THE GAME
 playGame();
 
+
 function playGame() {
+    initGame();
+    
     guessWord();
 }
 
+function initGame() {
+    guesses = [];
+    guessesRemaining = 10;  
+    state = states[Math.floor(Math.random()*states.length)];
+    stateLowercase = state.toLowerCase();
+    word = new Word(stateLowercase);
+    word.storeWord();
+    console.log(word.printWord());
+
+}
+
 function endGame() {
-    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') == stateLowercase)) {
+    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') == stateLowercase.split(' ').join(''))) {
         console.log(`Great Scott! You've done it!`);
 
         inquirer
@@ -30,12 +38,6 @@ function endGame() {
                 })
                 .then(function(answer) {
                 if (answer.again === true) {
-                    guesses =[];
-                    guessesRemaining = 10;
-                    state = states[Math.floor(Math.random()*states.length)];
-                    stateLowercase = state.toLowerCase();
-                    word = new Word(stateLowercase);
-                    word.storeWord();
                     playGame();
                 } else {
                     console.log("Come back again soon!");
@@ -54,12 +56,6 @@ function endGame() {
                 })
                 .then(function(answer) {
                 if (answer.again === true) {
-                    guesses =[];
-                    guessesRemaining = 10;
-                    state = states[Math.floor(Math.random()*states.length)];
-                    stateLowercase = state.toLowerCase();
-                    word = new Word(stateLowercase);
-                    word.storeWord();
                     playGame();
                 } else {
                     console.log("Come back again soon!");
@@ -70,7 +66,7 @@ function endGame() {
 }
 
 function guessWord() {
-    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') !== stateLowercase)){
+    if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') !== stateLowercase.split(' ').join(''))){
         guessLetter();
     }
     else 
@@ -97,7 +93,7 @@ function guessLetter() {
         }
 
         else if ((newGuess.length > 1) || 
-                    (newGuess == ' ') || 
+                    // (newGuess == ' ') || 
                     (newGuess == '') || 
                     (!alphabet.includes(newGuess)) ) {
             console.log(`Please enter a valid guess.`);
