@@ -10,7 +10,8 @@ playGame();
 
 
 function playGame() {
-    console.log(`Let's Play: Guess That State!`)
+
+    console.log(`\nLet's Play: Guess That State!`)
     initGame();
     
     guessWord();
@@ -27,55 +28,45 @@ function initGame() {
 
 }
 
+function playAgain() {
+    inquirer
+    .prompt({
+        name: "again",
+        type: "confirm",
+        message: "Would you like to play again?"
+        })
+        .then(function(answer) {
+        if (answer.again === true) {
+            playGame();
+        } else {
+            console.log(`\n`);
+            console.log("Come back again soon!");
+        }
+    });
+
+}
+
 function endGame() {
     if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') == stateLowercase.split(' ').join(''))) {
         console.log(`\n`);
-
         console.log(`GREAT SCOTT! You've done it!`);
         console.log(`\n`);
-
-        inquirer
-            .prompt({
-                name: "again",
-                type: "confirm",
-                message: "Would you like to play again?"
-                })
-                .then(function(answer) {
-                if (answer.again === true) {
-                    playGame();
-                } else {
-                    console.log("Come back again soon!");
-                }
-            });
+        playAgain();
 
     }
     if (guessesRemaining == 0) {
         console.log(`\n`);
         console.log(`You've lost. \nThe correct answer was: ${state}\nWhat do you have to say for yourself?`);
         console.log(`\n`);
+        playAgain();
 
-        inquirer
-            .prompt({
-                name: "again",
-                type: "confirm",
-                message: "Would you like to play again?"
-                })
-                .then(function(answer) {
-                if (answer.again === true) {
-                    playGame();
-                } else {
-                    console.log(`\n`);
-                    console.log("Come back again soon!");
-                }
-            });
 
-        }
+    }
 }
 
 function guessWord() {
     if ((guessesRemaining > 0) && (word.cleanWord.split(' ').join('') !== stateLowercase.split(' ').join(''))){
         guessLetter();
-        // console.log(`\n`);
     }
     else 
         endGame();
@@ -96,6 +87,7 @@ function guessLetter() {
         newGuess = answers.newGuess.toLowerCase();
 
         if (alphabet.includes(newGuess) && guesses.includes(newGuess)) {
+            console.log(`\n`);
             console.log(`You've already guessed that. Please try again.`);
             console.log(`\n`);
             console.log(word.updatedLetters(newGuess));
@@ -103,9 +95,9 @@ function guessLetter() {
         }
 
         else if ((newGuess.length > 1) || 
-                    // (newGuess == ' ') || 
                     (newGuess == '') || 
                     (!alphabet.includes(newGuess)) ) {
+            console.log(`\n`);
             console.log(`Please enter a valid guess.`);
             console.log(`\n`);
             console.log(word.updatedLetters(newGuess));
