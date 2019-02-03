@@ -8,12 +8,9 @@ var states = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','C
 //START THE GAME
 playGame();
 
-
 function playGame() {
-
     console.log(`\nLet's Play: Guess That State!`)
-    initGame();
-    
+    initGame();  
     guessWord();
 }
 
@@ -59,7 +56,6 @@ function endGame() {
         console.log(`You've lost. \nThe correct answer was: ${state}\nWhat do you have to say for yourself?`);
         console.log(`\n`);
         playAgain();
-
 
     }
 }
